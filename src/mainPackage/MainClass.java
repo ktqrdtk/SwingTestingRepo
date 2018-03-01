@@ -1,22 +1,31 @@
 package mainPackage;
 
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.*;
 
 public class MainClass implements ActionListener
 {
+	private Image lftImg;
+	private ImageIcon leftButtonIcon;
+	private Image rgtImg;
+	private ImageIcon rightButtonIcon;
+	private Image mdlImg;
+	private ImageIcon middleButtonIcon;
+	private Image myPicImg;
+	private ImageIcon myPicIcon;
 	public static final int x = 50;
 	public static final int y = 50;
-	private ImageIcon myPic;
 	private JFrame frame;
-	private ImageIcon leftButtonIcon;
-	private ImageIcon rightButtonIcon;
-	private ImageIcon middleButtonIcon;
 	private boolean picUp;
 	JButton b1;
 	JButton b2;
@@ -26,8 +35,8 @@ public class MainClass implements ActionListener
 	private void addButtons()
 	{
 		picUp = false;
-		addImages();
-		b1 = new JButton("Turn off middle button.", leftButtonIcon);
+		b1 = new JButton("Turn off middle button.");
+		b1.setIcon(leftButtonIcon);
 		b1.setVerticalTextPosition(AbstractButton.CENTER);
 		b1.setHorizontalTextPosition(AbstractButton.LEADING);
 		b1.setMnemonic(KeyEvent.VK_LEFT);
@@ -64,10 +73,22 @@ public class MainClass implements ActionListener
 	
 	private void addImages()
 	{
-		leftButtonIcon = new ImageIcon("images/leftArrow.png");
-		rightButtonIcon = new ImageIcon("images/rightArrow.png");
-		myPic = new ImageIcon("images/middleButton.png");
-		middleButtonIcon = new ImageIcon("images/thePic.jpg");
+		try
+		{
+			lftImg = ImageIO.read(getClass().getResource("/images/leftArrow.png"));
+			leftButtonIcon = new ImageIcon(lftImg);
+			rgtImg = ImageIO.read(getClass().getResource("/images/rightArrow.png"));
+			rightButtonIcon = new ImageIcon(rgtImg);
+			myPicImg = ImageIO.read(getClass().getResource("/images/thePic.jpg"));
+			myPicIcon = new ImageIcon(myPicImg);
+			mdlImg = ImageIO.read(getClass().getResource("/images/middleButton.png"));
+			middleButtonIcon = new ImageIcon(mdlImg);
+		}
+		catch(IOException ex)
+		{
+			System.out.println("Exception: " + ex);
+		}
+
 	}
 	
     private void createAndShowGUI() 
@@ -82,13 +103,14 @@ public class MainClass implements ActionListener
 		newContentPane = new JPanel()
 		{
 			@Override
-			public void paintComponent(Graphics g)
+			public void paint(Graphics g)
 			{
-				myPic.paintIcon(this, g, 0, 0);
-				super.paintComponent(g);
-				
+				System.out.println("Should enable image..");
+				super.paint(g);
+				myPicIcon.paintIcon(this, g, 0, 0);
 			}
 		};
+		addImages();
 		newContentPane.setOpaque(true);
 		addButtons();
 		frame.add(newContentPane);
@@ -130,7 +152,7 @@ public class MainClass implements ActionListener
 		}
 		else if("run".equals(e.getActionCommand()))
 		{
-			alternatePic(myPic);
+			alternatePic(myPicIcon);
 		}
 		
 	}
@@ -145,6 +167,7 @@ public class MainClass implements ActionListener
 		if(picUp)
 		{
 			System.out.println("Should turn off pic");
+			myPicImg.
 			picUp = false;
 		}
 		else
