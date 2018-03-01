@@ -1,6 +1,8 @@
 package mainPackage;
 
 import java.awt.event.KeyEvent;
+import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -8,11 +10,14 @@ import javax.swing.border.*;
 
 public class MainClass implements ActionListener
 {
-	
+	public static final int x = 50;
+	public static final int y = 50;
+	private ImageIcon myPic;
 	private JFrame frame;
 	private ImageIcon leftButtonIcon;
 	private ImageIcon rightButtonIcon;
 	private ImageIcon middleButtonIcon;
+	private boolean picUp;
 	JButton b1;
 	JButton b2;
 	JButton b3;
@@ -20,6 +25,7 @@ public class MainClass implements ActionListener
 	
 	private void addButtons()
 	{
+		picUp = false;
 		addImages();
 		b1 = new JButton("Turn off middle button.", leftButtonIcon);
 		b1.setVerticalTextPosition(AbstractButton.CENTER);
@@ -28,10 +34,11 @@ public class MainClass implements ActionListener
 		b1.setActionCommand("disable");
 		b1.setEnabled(true);
 		
-		b2 = new JButton("Middle Button", middleButtonIcon);
+		b2 = new JButton("Enables Picture", middleButtonIcon);
 		b2.setVerticalTextPosition(AbstractButton.BOTTOM);
 		b2.setHorizontalTextPosition(AbstractButton.CENTER);
 		b2.setMnemonic(KeyEvent.VK_DOWN);
+		b2.setActionCommand("run");
 		b2.setEnabled(true);
 		
 		b3 = new JButton("Turn on middle button.", rightButtonIcon);
@@ -41,11 +48,14 @@ public class MainClass implements ActionListener
 		b3.setEnabled(false);
 		
 		b1.addActionListener(this);
+		b2.addActionListener(this);
 		b3.addActionListener(this);
 		
-		b1.setToolTipText("Disable's Middle Button");
+		b1.setToolTipText("Disables Middle Button");
 		b3.setToolTipText("Enables Middle Button");
-		b2.setToolTipText("Does Nothing");
+		b2.setToolTipText("Enables Picture");
+		
+		b2.setPreferredSize(new Dimension(1500, 400));
 		
 		newContentPane.add(b1);
 		newContentPane.add(b2);
@@ -56,26 +66,32 @@ public class MainClass implements ActionListener
 	{
 		leftButtonIcon = new ImageIcon("images/leftArrow.png");
 		rightButtonIcon = new ImageIcon("images/rightArrow.png");
-		middleButtonIcon = new ImageIcon("images/middleButton.png");
+		myPic = new ImageIcon("images/middleButton.png");
+		middleButtonIcon = new ImageIcon("images/thePic.jpg");
 	}
 	
     private void createAndShowGUI() 
     {
-        //Create and set up the window.
         frame = new JFrame("Button");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
- 
-        //Add the ubiquitous "Hello World" label.
-        //JLabel label = new JLabel("Hello World");
 		
         //JPanel contentPane = new JPanel();
 		//contentPane.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
 		//frame.setContentPane(contentPane);
 		
-		newContentPane = new JPanel();
+		newContentPane = new JPanel()
+		{
+			@Override
+			public void paintComponent(Graphics g)
+			{
+				myPic.paintIcon(this, g, 0, 0);
+				super.paintComponent(g);
+				
+			}
+		};
 		newContentPane.setOpaque(true);
 		addButtons();
-		frame.setContentPane(newContentPane);
+		frame.add(newContentPane);
 		
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
  
@@ -98,20 +114,45 @@ public class MainClass implements ActionListener
         );
     }
 
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e) 
+	{
 		if("disable".equals(e.getActionCommand()))
 		{
 			b2.setEnabled(false);
 			b1.setEnabled(false);
 			b3.setEnabled(true);
 		}
-		else
+		else if("enable".equals(e.getActionCommand()))
 		{
 			b2.setEnabled(true);
 			b1.setEnabled(true);;
 			b3.setEnabled(false);
 		}
+		else if("run".equals(e.getActionCommand()))
+		{
+			alternatePic(myPic);
+		}
 		
+	}
+	
+	public void paintComponent(Graphics g)
+	{
+		newContentPane.paintComponents(g);
+	}
+	
+	public void alternatePic(ImageIcon pic)
+	{
+		if(picUp)
+		{
+			System.out.println("Should turn off pic");
+			picUp = false;
+		}
+		else
+		{
+			System.out.println("Should turn on pic");
+			newContentPane.repaint();
+			picUp = true;
+		}
 	}
 }
 
