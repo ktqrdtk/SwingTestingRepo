@@ -46,7 +46,7 @@ public class MainClass implements ActionListener
 		b1.setActionCommand("disable");
 		b1.setEnabled(true);
 		
-		b2 = new JButton("Enables Picture");
+		b2 = new JButton("Alternates Picture");
 		b2.setIcon(mdlIcon);
 		b2.setVerticalTextPosition(AbstractButton.BOTTOM);
 		b2.setHorizontalTextPosition(AbstractButton.CENTER);
@@ -67,11 +67,7 @@ public class MainClass implements ActionListener
 		
 		b1.setToolTipText("Disables Middle Button");
 		b3.setToolTipText("Enables Middle Button");
-		b2.setToolTipText("Enables Picture");
-		
-		b1.setPreferredSize(new Dimension(50, 50));
-		b2.setPreferredSize(new Dimension(50, 50));
-		b3.setPreferredSize(new Dimension(50, 50));
+		b2.setToolTipText("Alternates Picture");
 		
 		newContentPane.add(b1);
 		newContentPane.add(b2);
@@ -82,17 +78,17 @@ public class MainClass implements ActionListener
 	{
 		try
 		{
-			lftImg = ImageIO.read(getClass().getResource("/images/leftArrow.png"));
-			lftIcon = new ImageIcon(lftImg);
+			lftImg = ImageIO.read(getClass().getResource("/images/rightArrow.png"));
+			lftIcon = new ImageIcon(lftImg.getScaledInstance(120, 120, java.awt.Image.SCALE_SMOOTH));
 			lftLabel = new JLabel(lftIcon);
-			rgtImg = ImageIO.read(getClass().getResource("/images/rightArrow.png"));
-			rgtIcon = new ImageIcon(rgtImg);
+			rgtImg = ImageIO.read(getClass().getResource("/images/leftArrow.png"));
+			rgtIcon = new ImageIcon(rgtImg.getScaledInstance(120, 120, java.awt.Image.SCALE_SMOOTH));
 			rgtLabel = new JLabel(rgtIcon);
 			myPicImg = ImageIO.read(getClass().getResource("/images/thePic.jpg"));
 			myPicIcon = new ImageIcon(myPicImg);
 			myPicLabel = new JLabel(myPicIcon);
 			mdlImg = ImageIO.read(getClass().getResource("/images/middleButton.png"));
-			mdlIcon = new ImageIcon(mdlImg);
+			mdlIcon = new ImageIcon(mdlImg.getScaledInstance(120, 120, java.awt.Image.SCALE_SMOOTH));
 			mdlLabel = new JLabel(mdlIcon);
 		}
 		catch(IOException ex)
