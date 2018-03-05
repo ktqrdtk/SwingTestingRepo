@@ -22,11 +22,9 @@ public class MyPanel extends JPanel{
 	{
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		setOpaque(true);
-		
-		
 	}
 	
-	protected void paintComponent(Graphics g)
+	public void paintComponent(Graphics g)
 	{
 		System.out.println("Painting");
 		super.paintComponent(g);
