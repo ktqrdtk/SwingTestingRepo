@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.*;
 
+@SuppressWarnings("unused")
 public class MainClass implements ActionListener
 {
 	private JFrame frame;
